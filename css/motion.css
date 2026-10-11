@@ -336,7 +336,7 @@ body {
     top: -40px;
     width: 480px;
     height: 600px;
-    background: url(../img/logo-white.png) center/contain no-repeat;
+    /* background: url(../img/logo-white.png) center/contain no-repeat; */
     opacity: .07;
     animation: floaty 9s ease-in-out infinite
 }

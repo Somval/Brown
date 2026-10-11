@@ -62,11 +62,16 @@
          if (!rows.length) { R.innerHTML = '<p class="empty">Your cart is empty. <a href="shop.html">Browse the collection</a></p>'; return }
          const total = rows.reduce((a, r) => a + r.price * r.qty, 0);
          R.innerHTML = `<div class="row g-4 g-xl-5"><div class="col-lg-7">${rows.map(r => `<div class="citem row g-3 align-items-center"><div class="col-auto"><img src="${esc(r.image)}" alt=""></div><div class="col"><a href="${esc(r.url)}">${esc(r.name)}</a><br><small>${money(r.price)}</small></div><div class="col-12 col-sm-auto order-3 order-sm-2"><input type="number" min="1" max="${r.stock || 99}" value="${r.qty}" data-id="${esc(r.id)}" aria-label="Quantity"> <button class="rm" data-rm="${esc(r.id)}">Remove</button></div><div class="col-auto order-2 order-sm-3 citem-total">${money(r.price * r.qty)}</div></div>`).join('')}<p class="total">Total <b>${money(total)}</b></p></div>
- <div class="col-lg-5"><form class="checkout" id="co"><h2>Delivery details</h2><input name="name" placeholder="Full name" required><input name="phone" placeholder="Phone number" required><input name="email" type="email" placeholder="Email" required><input name="city" placeholder="City" required><textarea name="address" placeholder="Delivery address" required></textarea><button class="bt dark">Pay with Paystack</button><p class="demo">Design preview: online payment will be connected when the PHP back end is added.</p></form></div></div>`;
+ <div class="col-lg-5"><form class="checkout" id="co"><h2>Delivery details</h2><input name="name" placeholder="Full name" required><input name="phone" placeholder="Phone number" required><input name="email" type="email" placeholder="Email" required><input name="city" placeholder="City" required><textarea name="address" placeholder="Delivery address" required></textarea><button class="bt dark">Pay with Paystack</button>
+ 
+ </form></div></div>`;
          $$('input[data-id]', R).forEach(i => i.onchange = () => { const c = Cart.get(), r = c[i.dataset.id]; r.qty = Math.max(1, Math.min(+i.value || 1, r.stock || 99)); Cart.set(c); draw() });
          $$('[data-rm]', R).forEach(b => b.onclick = () => { const c = Cart.get(); delete c[b.dataset.rm]; Cart.set(c); draw() });
-         $('#co').onsubmit = e => { e.preventDefault(); Cart.set({}); R.innerHTML = '<p class="ok">Thank you! This is the design preview, so no payment was taken. Order details will be saved once the back end is connected.</p><a class="bt dark" href="index.html">Back to the shop</a>' }
+         $('#co').onsubmit = e => { e.preventDefault(); Cart.set({}); R.innerHTML = 
+         // '<p class="ok">Thank you! This is the design preview, so no payment was taken. Order details will be saved once the back end is connected.</p>
+         '<a class="bt dark" href="index.html">Back to the shop</a>' }
       }; draw()
    }
    count(); observe();
 })();
+{/* <p class="demo">Design preview: online payment will be connected when the PHP back end is added.</p> */}
